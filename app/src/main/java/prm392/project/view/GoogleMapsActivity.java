@@ -64,8 +64,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         getLastLocation();
 
         btnBack.setOnClickListener(v -> {
-            // Navigate back to MainActivity
-            Intent intent = new Intent(GoogleMapsActivity.this, MainActivity.class);
+            Intent intent = new Intent(GoogleMapsActivity.this, HomeActivity.class);
             startActivity(intent);
             finish(); // Finish the current activity so that it is removed from the back stack
         });

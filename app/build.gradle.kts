@@ -41,7 +41,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(kotlin("script-runtime"))
+    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.8.21")
 
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")
