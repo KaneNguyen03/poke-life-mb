@@ -3,6 +3,7 @@ package prm392.project.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -20,10 +21,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import prm392.project.R;
 import prm392.project.adapter.FoodAdapter;
+import prm392.project.api.FoodRepository;
+import prm392.project.api.FoodService;
 import prm392.project.model.Food;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -31,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     FoodAdapter foodAdapter;
     ArrayList<Food> foodList;
     SwipeRefreshLayout swipeRefreshLayout;
+    FoodService foodService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,11 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        foodList = new ArrayList<>(); // Initialize the foodList
+        foodService = FoodRepository.getFoodService(); // Initialize foodService
+        foodAdapter = new FoodAdapter(this, foodList);
+        gridView = findViewById(R.id.foodListView);
+        gridView.setAdapter(foodAdapter);
 
         ImageView menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(v -> {
@@ -63,12 +76,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        gridView = findViewById(R.id.foodListView);
-        foodList = new ArrayList<>();
+        //foodList = new ArrayList<>();
         loadFoodData();
 
-        foodAdapter = new FoodAdapter(this, foodList);
-        gridView.setAdapter(foodAdapter);
+        //foodAdapter = new FoodAdapter(this, foodList);
+        //gridView.setAdapter(foodAdapter);
 
         // Handle pull-to-refresh
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -101,15 +113,31 @@ public class HomeActivity extends AppCompatActivity {
 
     // Method to load the initial data
     private void loadFoodData() {
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        foodList.add(new Food("Salad", R.drawable.salah, "Ingredients: Lettuce, Tomato, Cucumber", 10.00, 100));
-        // Add more food items...
+        Log.d("HomeActivity", "Loading food data...");
+        Call<List<Food>> call = foodService.getFoodList(1, 10, "salad");
+        call.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                Log.d("HomeActivity", "Response received");
+                if (response.isSuccessful() && response.body() != null) {
+                    foodList.clear();
+                    foodList.addAll(response.body());
+                    foodAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+                if (t instanceof java.net.SocketTimeoutException) {
+                    Toast.makeText(HomeActivity.this, "Request timed out. Please try again.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                Log.e("API Error", t.getMessage());
+            }
+        });
     }
 
     // Method to refresh data

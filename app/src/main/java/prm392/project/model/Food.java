@@ -1,58 +1,61 @@
 package prm392.project.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Food {
+    private String FoodID;
+    private String Name;
+    private String Description;
+    private String Price;
+    private int Calories;
+    private String Image;
 
-    private String name;
-    private int image;
-    private String ingredient;
-    private double price;
-    private int calories;
+    // Getters and Setters
+    public String getFoodID() {
+        return FoodID;
+    }
 
-    public Food(String name, int image, String ingredient, double price, int calories) {
-        this.name = name;
-        this.image = image;
-        this.ingredient = ingredient;
-        this.price = price;
-        this.calories = calories;
+    public void setFoodID(String foodID) {
+        FoodID = foodID;
     }
 
     public String getName() {
-        return name;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public String getIngredient() {
-        return ingredient;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getCalories() {
-        return calories;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Name = name;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setIngredient(String ingredient) {
-        this.ingredient = ingredient;
+    public void setDescription(String description) {
+        Description = description;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
+    }
+
+    public int getCalories() {
+        return Calories;
     }
 
     public void setCalories(int calories) {
-        this.calories = calories;
+        Calories = calories;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 }
