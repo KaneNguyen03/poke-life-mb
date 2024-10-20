@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 import prm392.project.R;
@@ -51,10 +51,14 @@ public class FoodAdapter extends BaseAdapter {
         TextView ingredientView = view.findViewById(R.id.ingredient);
         TextView calorieView = view.findViewById(R.id.foodCalorie);
 
-        imageView.setImageResource(currentFood.getImage());
+//        imageView.setImageResource(currentFood.getImage());
+        Glide.with(context)
+                .load(currentFood.getImage())
+                .placeholder(R.drawable.salah)
+                .into(imageView);
         nameView.setText(currentFood.getName());
-        priceView.setText(String.format("$%.2f", currentFood.getPrice()));
-        ingredientView.setText(currentFood.getIngredient());
+        priceView.setText(currentFood.getPrice());
+        ingredientView.setText(currentFood.getDescription());
         calorieView.setText(String.format("%d cal", currentFood.getCalories()));
         return view;
     }
