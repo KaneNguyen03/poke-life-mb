@@ -90,7 +90,9 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (item.getItemId() == R.id.nav_profile) {
                     Toast.makeText(HomeActivity.this, "profile", Toast.LENGTH_SHORT).show();
                 } else if (item.getItemId() == R.id.nav_location) {
-                    Toast.makeText(HomeActivity.this, "location", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, GoogleMapsActivity.class);
+                    startActivity(intent);
+                    finish(); // Finish the current activity so that it is removed from the back stack
                 }
                 return true;
             }
