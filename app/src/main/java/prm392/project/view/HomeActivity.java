@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
     // Method to load the initial data
     private void loadFoodData() {
         Log.d("HomeActivity", "Loading food data...");
-        Call<List<Food>> call = foodService.getFoodList(1, 10, "salad");
+        Call<List<Food>> call = foodService.getFoodList(1, 99999, "");
         call.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
