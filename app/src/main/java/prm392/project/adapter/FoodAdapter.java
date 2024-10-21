@@ -1,17 +1,25 @@
 package prm392.project.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
+import java.text.DecimalFormat;
 import java.util.List;
 
 import prm392.project.R;
 import prm392.project.model.Food;
+import prm392.project.model.OrderDetail;
 
 public class FoodAdapter extends BaseAdapter {
 
@@ -48,8 +56,12 @@ public class FoodAdapter extends BaseAdapter {
         ImageView imageView = view.findViewById(R.id.foodImage);
         TextView nameView = view.findViewById(R.id.foodName);
         TextView priceView = view.findViewById(R.id.foodPrice);
-        TextView ingredientView = view.findViewById(R.id.ingredient);
+        TextView descriptionView = view.findViewById(R.id.description);
         TextView calorieView = view.findViewById(R.id.foodCalorie);
+        ImageButton addButton = view.findViewById(R.id.btnAddToCart);
+
+        DecimalFormat formatter = new DecimalFormat("#,###"); // Định dạng số với dấu phẩy
+        String formattedPrice = formatter.format(currentFood.getPrice()) + " VNĐ"; // Thêm đơn vị VNĐ
 
 //        imageView.setImageResource(currentFood.getImage());
         Glide.with(context)
@@ -57,9 +69,32 @@ public class FoodAdapter extends BaseAdapter {
                 .placeholder(R.drawable.salah)
                 .into(imageView);
         nameView.setText(currentFood.getName());
-        priceView.setText(currentFood.getPrice());
-        ingredientView.setText(currentFood.getDescription());
+        priceView.setText(formattedPrice);
+        descriptionView.setText(currentFood.getDescription());
         calorieView.setText(String.format("%d cal", currentFood.getCalories()));
+
+        addButton.setOnClickListener(v -> {
+            saveFoodToLocalStorage(currentFood);
+        });
         return view;
+    }
+
+    private void saveFoodToLocalStorage(Food currentFood) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        OrderDetail orderDetail = new OrderDetail(currentFood.getFoodID(), 1, currentFood.getName(),
+                currentFood.getDescription(), currentFood.getPrice(), currentFood.getCalories(), currentFood.getImage());
+
+        // Chuyển đổi đối tượng Food thành JSON
+        Gson gson = new Gson();
+        String json = gson.toJson(orderDetail);
+
+        // Lưu vào sharedPreferences với id của món ăn làm key
+        editor.putString(currentFood.getFoodID(), json);
+        editor.apply();
+
+        // Thông báo cho người dùng
+        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
     }
 }

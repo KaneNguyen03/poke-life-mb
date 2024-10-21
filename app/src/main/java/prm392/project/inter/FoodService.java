@@ -1,4 +1,4 @@
-package prm392.project.api;
+package prm392.project.inter;
 
 import java.util.List;
 

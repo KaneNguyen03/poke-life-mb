@@ -1,4 +1,7 @@
-package prm392.project.api;
+package prm392.project.repo;
+
+import prm392.project.factory.APIClient;
+import prm392.project.inter.FoodService;
 
 public class FoodRepository {
 

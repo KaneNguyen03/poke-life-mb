@@ -26,54 +26,64 @@ import java.util.List;
 
 import prm392.project.R;
 import prm392.project.adapter.FoodAdapter;
-import prm392.project.repo.FoodRepository;
+import prm392.project.adapter.IngredientAdapter;
 import prm392.project.inter.FoodService;
+import prm392.project.inter.IngredientService;
 import prm392.project.model.Food;
+import prm392.project.model.Ingredient;
+import prm392.project.repo.IngredientRepository;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class IngredientsListActivity extends AppCompatActivity {
 
     GridView gridView;
-    FoodAdapter foodAdapter;
-    ArrayList<Food> foodList;
+    IngredientAdapter ingredientAdapter;
+    ArrayList<Ingredient> ingredientsList;
     SwipeRefreshLayout swipeRefreshLayout;
-    FoodService foodService;
-    Button btnCustomDish;
+    IngredientService ingredientService;
+    Button btnNormalDish, btnChosen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_ingredients_list);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        foodList = new ArrayList<>(); // Initialize the foodList
-        foodService = FoodRepository.getFoodService(); // Initialize foodService
-        foodAdapter = new FoodAdapter(this, foodList);
-        gridView = findViewById(R.id.foodListView);
-        gridView.setAdapter(foodAdapter);
-        btnCustomDish = findViewById(R.id.btnCustomDish);
 
-        btnCustomDish.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, IngredientsListActivity.class);
+        ingredientsList = new ArrayList<>();
+        ingredientService = IngredientRepository.getIngredientService();
+        ingredientAdapter = new IngredientAdapter(this, ingredientsList);
+        gridView = findViewById(R.id.foodListView);
+        gridView.setAdapter(ingredientAdapter);
+        btnNormalDish = findViewById(R.id.btnNormalDish);
+        btnChosen = findViewById(R.id.btnViewChosen);
+
+        btnNormalDish.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientsListActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
+
+        btnNormalDish.setOnClickListener(v -> {
+            Intent intent = new Intent(IngredientsListActivity.this, ChosenIngredientListActivity.class);
             startActivity(intent);
         });
 
         ImageView menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(HomeActivity.this, v);
+            PopupMenu popupMenu = new PopupMenu(IngredientsListActivity.this, v);
             popupMenu.getMenuInflater().inflate(R.menu.option_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.logout) {
-                        Toast.makeText(HomeActivity.this, "Click logout", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IngredientsListActivity.this, "Click logout", Toast.LENGTH_SHORT).show();
                     } else if (item.getItemId() == R.id.orderHistory) {
-                        Intent intent = new Intent(HomeActivity.this, OrderHistoryActivity.class);
+                        Intent intent = new Intent(IngredientsListActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
                     }
                     return false;
@@ -83,19 +93,12 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        //foodList = new ArrayList<>();
-        loadFoodData();
+        loadIngredientData();
 
-        //foodAdapter = new FoodAdapter(this, foodList);
-        //gridView.setAdapter(foodAdapter);
-
-        // Handle pull-to-refresh
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            refreshFoodData();  // Your method to refresh data
+            refreshIngredientData();  // Your method to refresh data
             swipeRefreshLayout.setRefreshing(false);  // Stop the refresh animation
         });
-//        foodAdapter = new FoodAdapter(this, foodList);
-//        gridView.setAdapter(foodAdapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -103,13 +106,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_home) {
-                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "Home", Toast.LENGTH_SHORT).show();
                 } else if (item.getItemId() == R.id.nav_cart) {
-                    Toast.makeText(HomeActivity.this, "cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "cart", Toast.LENGTH_SHORT).show();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Toast.makeText(HomeActivity.this, "profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "profile", Toast.LENGTH_SHORT).show();
                 } else if (item.getItemId() == R.id.nav_location) {
-                    Intent intent = new Intent(HomeActivity.this, GoogleMapsActivity.class);
+                    Intent intent = new Intent(IngredientsListActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);
                     finish(); // Finish the current activity so that it is removed from the back stack
                 }
@@ -118,29 +121,28 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Method to load the initial data
-    private void loadFoodData() {
-        Log.d("HomeActivity", "Loading food data...");
-        Call<List<Food>> call = foodService.getFoodList(1, 99999, "");
-        call.enqueue(new Callback<List<Food>>() {
+    private void loadIngredientData() {
+        Log.d("IngredientActivity", "Loading ingredient data...");
+        Call<List<Ingredient>> call = ingredientService.getIngredientList(1, 99999, "");
+        call.enqueue(new Callback<List<Ingredient>>() {
             @Override
-            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                Log.d("HomeActivity", "Response received");
+            public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
+                Log.d("IngredientActivity", "Response received");
                 if (response.isSuccessful() && response.body() != null) {
-                    foodList.clear();
-                    foodList.addAll(response.body());
-                    foodAdapter.notifyDataSetChanged();
+                    ingredientsList.clear();
+                    ingredientsList.addAll(response.body());
+                    ingredientAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(HomeActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
+            public void onFailure(Call<List<Ingredient>> call, Throwable t) {
                 if (t instanceof java.net.SocketTimeoutException) {
-                    Toast.makeText(HomeActivity.this, "Request timed out. Please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "Request timed out. Please try again.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(HomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IngredientsListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 Log.e("API Error", t.getMessage());
             }
@@ -148,9 +150,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // Method to refresh data
-    private void refreshFoodData() {
-        foodList.clear();  // Clear the existing list
-        loadFoodData();    // Reload the data
-        foodAdapter.notifyDataSetChanged();  // Notify adapter of the data change
+    private void refreshIngredientData() {
+        ingredientsList.clear();  // Clear the existing list
+        loadIngredientData();    // Reload the data
+        ingredientAdapter.notifyDataSetChanged();  // Notify adapter of the data change
     }
 }

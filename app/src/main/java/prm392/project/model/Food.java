@@ -6,7 +6,7 @@ public class Food {
     private String FoodID;
     private String Name;
     private String Description;
-    private String Price;
+    private double Price;
     private int Calories;
     private String Image;
 
@@ -35,11 +35,11 @@ public class Food {
         Description = description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         Price = price;
     }
 

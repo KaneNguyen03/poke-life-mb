@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ChosenIngredientListActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f0fdf4"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pr_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chosen Ingredients"
+                android:textColor="#0bae77"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginStart="20dp"/>
+
+        </LinearLayout>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_below="@id/header_title"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <GridView
+                android:id="@+id/foodListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="1"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ImageButton
+            android:id="@+id/btnOrder"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/icon_cart"
+            android:background="@drawable/custom_button">
+        </ImageButton>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:background="#23c55e"
+            app:menu="@menu/bottom_navigation_menu" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

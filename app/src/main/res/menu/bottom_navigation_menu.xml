@@ -6,7 +6,7 @@
     <item
         android:id="@+id/nav_cart"
         android:icon="@drawable/baseline_shopping_cart_24"
-    android:title="Card" />
+    android:title="Cart" />
     <item
         android:id="@+id/nav_location"
         android:icon="@drawable/baseline_location_on_24"
