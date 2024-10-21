@@ -5,6 +5,7 @@ import java.util.List;
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface FoodService {
@@ -15,4 +16,7 @@ public interface FoodService {
             @Query("pageSize") int pageSize,
             @Query("keyword") String keyword
     );
+
+    @GET("food/{id}")
+    Call<Food> getFoodDetails(@Path("id") String foodId);
 }

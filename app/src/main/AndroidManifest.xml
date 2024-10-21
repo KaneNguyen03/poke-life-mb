@@ -28,7 +28,7 @@
             android:name=".view.IngredientsListActivity"
             android:exported="false" />
         <activity
-            android:name=".IngredientsListActivity"
+            android:name=".view.FoodDetailActivity"
             android:exported="false" />
         <activity
             android:name=".view.OrderHistoryActivity"

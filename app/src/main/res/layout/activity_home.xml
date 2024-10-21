@@ -71,13 +71,15 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:clickable="false" >
 
         <GridView
             android:id="@+id/foodListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="1"/>
+            android:numColumns="1"
+            android:clickable="false" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

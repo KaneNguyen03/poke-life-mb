@@ -28,6 +28,10 @@ import prm392.project.R;
 import prm392.project.adapter.FoodAdapter;
 import prm392.project.repo.FoodRepository;
 import prm392.project.inter.FoodService;
+
+import prm392.project.inter.FoodService;
+import prm392.project.repo.FoodRepository;
+
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,14 +48,18 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("HomeActivity", "onCreate: Activity is being created");
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Log.d("HomeActivity", "WindowInsets applied");
             return insets;
         });
         foodList = new ArrayList<>(); // Initialize the foodList
+        Log.d("HomeActivity", "Food list initialized");
+
         foodService = FoodRepository.getFoodService(); // Initialize foodService
         foodAdapter = new FoodAdapter(this, foodList);
         gridView = findViewById(R.id.foodListView);
@@ -62,6 +70,9 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, IngredientsListActivity.class);
             startActivity(intent);
         });
+
+        Log.d("HomeActivity", "Food adapter set for GridView");
+
 
         ImageView menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(v -> {
@@ -83,19 +94,16 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        //foodList = new ArrayList<>();
         loadFoodData();
-
-        //foodAdapter = new FoodAdapter(this, foodList);
-        //gridView.setAdapter(foodAdapter);
+        Log.d("HomeActivity", "Food data loading started");
 
         // Handle pull-to-refresh
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            Log.d("HomeActivity", "Pull-to-refresh triggered");
             refreshFoodData();  // Your method to refresh data
             swipeRefreshLayout.setRefreshing(false);  // Stop the refresh animation
+            Log.d("HomeActivity", "Pull-to-refresh completed");
         });
-//        foodAdapter = new FoodAdapter(this, foodList);
-//        gridView.setAdapter(foodAdapter);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -116,6 +124,22 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d("GridViewClick", "Item clicked at position: " + position);
+            // Lấy ra item được chọn từ foodList
+            Food selectedFood = foodList.get(position);
+            Log.d("GridViewClick", "Selected food: " + selectedFood.getFoodID() + " - " + selectedFood.getName());
+
+            // Tạo một Intent để chuyển sang FoodDetailActivity
+            Intent intent = new Intent(HomeActivity.this, FoodDetailActivity.class);
+
+            // Truyền dữ liệu (ID món ăn) sang FoodDetailActivity
+            intent.putExtra("food_id", selectedFood.getFoodID());
+
+            // Start FoodDetailActivity
+            startActivity(intent);
+        });
     }
 
     // Method to load the initial data
@@ -125,32 +149,36 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                Log.d("HomeActivity", "Response received");
+                Log.d("HomeActivity", "Response received from food service");
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("HomeActivity", "Food data successfully loaded");
                     foodList.clear();
                     foodList.addAll(response.body());
                     foodAdapter.notifyDataSetChanged();
                 } else {
+                    Log.d("HomeActivity", "Failed to load food data: " + response.code());
                     Toast.makeText(HomeActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Food>> call, Throwable t) {
+                Log.e("HomeActivity", "API error: " + t.getMessage());
                 if (t instanceof java.net.SocketTimeoutException) {
                     Toast.makeText(HomeActivity.this, "Request timed out. Please try again.", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(HomeActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                Log.e("API Error", t.getMessage());
             }
         });
     }
 
     // Method to refresh data
     private void refreshFoodData() {
+        Log.d("HomeActivity", "Refreshing food data...");
         foodList.clear();  // Clear the existing list
         loadFoodData();    // Reload the data
         foodAdapter.notifyDataSetChanged();  // Notify adapter of the data change
+        Log.d("HomeActivity", "Food data refreshed");
     }
 }
