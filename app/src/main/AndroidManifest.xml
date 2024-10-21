@@ -19,6 +19,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.ChosenIngredientListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.CartListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.IngredientsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.FoodDetailActivity"
             android:exported="false" />
         <activity
@@ -38,9 +47,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Google Maps API Key -->
+        </activity> <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAhKdlpg0t2Q33IDz55I4-m9QDVPy2CBDE" />

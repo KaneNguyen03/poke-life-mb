@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -25,8 +26,12 @@ import java.util.List;
 
 import prm392.project.R;
 import prm392.project.adapter.FoodAdapter;
+import prm392.project.repo.FoodRepository;
+import prm392.project.inter.FoodService;
+
 import prm392.project.inter.FoodService;
 import prm392.project.repo.FoodRepository;
+
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Food> foodList;
     SwipeRefreshLayout swipeRefreshLayout;
     FoodService foodService;
-
+    Button btnCustomDish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,15 @@ public class HomeActivity extends AppCompatActivity {
         foodAdapter = new FoodAdapter(this, foodList);
         gridView = findViewById(R.id.foodListView);
         gridView.setAdapter(foodAdapter);
+        btnCustomDish = findViewById(R.id.btnCustomDish);
+
+        btnCustomDish.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, IngredientsListActivity.class);
+            startActivity(intent);
+        });
+
         Log.d("HomeActivity", "Food adapter set for GridView");
+
 
         ImageView menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(v -> {
@@ -98,11 +111,18 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_home) {
-                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_cart) {
-                    Toast.makeText(HomeActivity.this, "cart", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Toast.makeText(HomeActivity.this, "profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    //chưa có trang profile
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_location) {
                     Intent intent = new Intent(HomeActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);

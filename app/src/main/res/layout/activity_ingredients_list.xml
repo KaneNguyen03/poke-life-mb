@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.HomeActivity">
+    tools:context=".view.IngredientsListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,9 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order your meal"
+            android:text="Custom your meal"
             android:textColor="#0bae77"
-            android:textSize="30sp"
+            android:textSize="27sp"
             android:layout_marginStart="20dp"/>
 
         <ImageView
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Search your meal..."
+        android:hint="Search your ingredient..."
         android:padding="10dp"
         android:background="@drawable/custom_search_bar"
         android:drawablePadding="10dp"
@@ -59,11 +59,20 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnCustomDish"
-            android:layout_width="100dp"
+            android:id="@+id/btnNormalDish"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/custom_button"
+            android:text="Normal">
+        </Button>
+        <Button
+            android:id="@+id/btnViewChosen"
+            android:layout_width="80dp"
+            android:layout_marginHorizontal="10dp"
             android:layout_height="40dp"
             android:background="@drawable/custom_button"
-            android:text="Custom">
+            android:text="Chosen">
         </Button>
     </LinearLayout>
 
@@ -71,15 +80,13 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clickable="false" >
+        android:layout_weight="1">
 
         <GridView
             android:id="@+id/foodListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="1"
-            android:clickable="false" />
+            android:numColumns="1"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

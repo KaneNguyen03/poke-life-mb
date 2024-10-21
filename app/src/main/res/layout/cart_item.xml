@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:elevation="8dp"
-    android:radius="16dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="12dp"
-    app:cardUseCompatPadding="true">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="8dp"
+android:elevation="8dp"
+android:radius="16dp"
+app:cardBackgroundColor="#FFFFFF"
+app:cardCornerRadius="16dp"
+app:cardElevation="12dp"
+app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/foodOrderImage"
+            android:id="@+id/foodImage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
@@ -26,7 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/foodOrderImage"
+            android:layout_below="@id/foodImage"
             android:orientation="horizontal"
             android:paddingTop="8dp">
 
@@ -38,7 +38,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/historyOrderFoodName"
+                    android:id="@+id/foodName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Salad"
@@ -46,16 +46,16 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/historyOrderIngredient"
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ingredients: Lettuce, Tomato, Cucumber" />
 
                 <TextView
-                    android:id="@+id/orderHistoryFoodPrice"
+                    android:id="@+id/foodPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$12.00"
+                    android:text="12,000 VNĐ"
                     android:textColor="#FF0000"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -70,18 +70,42 @@
                 android:paddingStart="16dp">
 
                 <TextView
-                    android:id="@+id/orderHistoryFoodCal"
+                    android:id="@+id/foodCalorie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="300 calories" />
 
-                <TextView
-                    android:id="@+id/orderHistoryQuantity"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:text="Quantity: 4"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/btnMinusQuantity"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/icon_minus" />
+                    <TextView
+                        android:id="@+id/foodQuantity"
+                        android:layout_width="20dp"
+                        android:layout_height="40dp"
+                        android:text="1"
+                        android:layout_marginTop="7dp"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp">
+                    </TextView>
+                    <ImageButton
+                        android:id="@+id/btnAddQuantity"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
