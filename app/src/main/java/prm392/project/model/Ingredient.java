@@ -7,6 +7,30 @@ public class Ingredient {
     private String imageUrl;
     private double price;
     private String description;
+    private int quantity;
+
+    public Ingredient(String ingredientId, String name, int calories, String imageUrl, double price, String description, int quantity) {
+        this.ingredientId = ingredientId;
+        this.name = name;
+        this.calories = calories;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
+    public Ingredient(String ingredientId, int quantity) {
+        this.ingredientId = ingredientId;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public double getPrice() {
         return price;
