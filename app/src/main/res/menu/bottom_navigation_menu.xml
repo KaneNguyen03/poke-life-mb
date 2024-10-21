@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/baseline_shopping_cart_24"
+    android:title="Card" />
+    <item
+        android:id="@+id/nav_location"
+        android:icon="@drawable/baseline_location_on_24"
+        android:title="Location" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/baseline_person_pin_24"
+        android:title="Profile" />
+</menu>
