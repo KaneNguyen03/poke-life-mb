@@ -73,26 +73,6 @@ public class IngredientsListActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView menuIcon = findViewById(R.id.menu_icon);
-        menuIcon.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(IngredientsListActivity.this, v);
-            popupMenu.getMenuInflater().inflate(R.menu.option_menu, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.logout) {
-                        //intent tới trang login call api logout
-                        Toast.makeText(IngredientsListActivity.this, "Click logout", Toast.LENGTH_SHORT).show();
-                    } else if (item.getItemId() == R.id.orderHistory) {
-                        Intent intent = new Intent(IngredientsListActivity.this, OrderHistoryActivity.class);
-                        startActivity(intent);
-                    }
-                    return false;
-                }
-            });
-            popupMenu.show();
-        });
-
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         loadIngredientData();
 
@@ -131,7 +111,7 @@ public class IngredientsListActivity extends AppCompatActivity {
 
     private void loadIngredientData() {
         Log.d("IngredientActivity", "Loading ingredient data...");
-        Call<List<Ingredient>> call = ingredientService.getIngredientList(1, 99999, "");
+        Call<List<Ingredient>> call = ingredientService.getIngredientList();
         call.enqueue(new Callback<List<Ingredient>>() {
             @Override
             public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {

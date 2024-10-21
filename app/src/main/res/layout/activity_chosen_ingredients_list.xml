@@ -41,7 +41,8 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_below="@id/header_title"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
             android:layout_weight="1">
 
             <GridView
@@ -67,7 +68,7 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:background="#23c55e"
             app:menu="@menu/bottom_navigation_menu" />
     </RelativeLayout>

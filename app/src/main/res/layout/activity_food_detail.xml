@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
     tools:context=".view.FoodDetailActivity">
 
     <!-- Toolbar with back button -->
     <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:padding="16dp"
         android:paddingVertical="12dp">
 
         <!-- Back Button -->
@@ -23,7 +21,6 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
             android:contentDescription="Back"
             android:padding="8dp"
             android:src="@drawable/ic_back" />
@@ -32,7 +29,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
             android:text="Food Details"
             android:textColor="#333333"
@@ -42,11 +38,11 @@
 
     <!-- CardView for food image and details -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/foodCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         app:cardBackgroundColor="#F9F9F9"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp">
@@ -127,9 +123,8 @@
         android:id="@+id/btnAddToCart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_below="@id/foodCard"
         android:layout_marginTop="24dp"
-        android:layout_marginRight="16dp"
         android:backgroundTint="#22c55e"
         android:padding="16dp"
         android:text="Add to Cart"
@@ -137,4 +132,14 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold" />
-</LinearLayout>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:background="#22c55e"
+        app:menu="@menu/bottom_navigation_menu" />
+</RelativeLayout>

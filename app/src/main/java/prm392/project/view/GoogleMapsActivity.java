@@ -1,6 +1,7 @@
 package prm392.project.view;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +47,6 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private SearchView svMap;
-    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +59,9 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             return insets;
         });
 
-        btnBack = findViewById(R.id.btnBack);
         svMap = findViewById(R.id.svMap);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastLocation();
-
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(GoogleMapsActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish(); // Finish the current activity so that it is removed from the back stack
-        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         svMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -97,6 +91,34 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         mapFragment.getMapAsync(this);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_location);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    Intent intent = new Intent(GoogleMapsActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_cart) {
+                    Intent intent = new Intent(GoogleMapsActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_profile) {
+                    Intent intent = new Intent(GoogleMapsActivity.this, ProfileActivity.class);
+                    //chưa có trang profile
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_location) {
+                    Intent intent = new Intent(GoogleMapsActivity.this, GoogleMapsActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
     }
 
     @Override

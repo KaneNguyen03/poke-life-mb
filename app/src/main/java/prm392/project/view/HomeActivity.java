@@ -29,9 +29,6 @@ import prm392.project.adapter.FoodAdapter;
 import prm392.project.repo.FoodRepository;
 import prm392.project.inter.FoodService;
 
-import prm392.project.inter.FoodService;
-import prm392.project.repo.FoodRepository;
-
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     FoodService foodService;
     Button btnCustomDish;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
@@ -119,33 +118,16 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-                    //chưa có trang profile
+                    Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (item.getItemId() == R.id.nav_location) {
                     Intent intent = new Intent(HomeActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);
-                    finish(); // Finish the current activity so that it is removed from the back stack
+                    finish();
                 }
                 return true;
             }
-        });
-
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Log.d("GridViewClick", "Item clicked at position: " + position);
-            // Lấy ra item được chọn từ foodList
-            Food selectedFood = foodList.get(position);
-            Log.d("GridViewClick", "Selected food: " + selectedFood.getFoodID() + " - " + selectedFood.getName());
-
-            // Tạo một Intent để chuyển sang FoodDetailActivity
-            Intent intent = new Intent(HomeActivity.this, FoodDetailActivity.class);
-
-            // Truyền dữ liệu (ID món ăn) sang FoodDetailActivity
-            intent.putExtra("food_id", selectedFood.getFoodID());
-
-            // Start FoodDetailActivity
-            startActivity(intent);
         });
     }
 

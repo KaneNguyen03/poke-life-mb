@@ -1,6 +1,7 @@
 package prm392.project.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import java.util.List;
 import prm392.project.R;
 import prm392.project.model.Food;
 import prm392.project.model.OrderDetail;
+import prm392.project.view.FoodDetailActivity;
+import prm392.project.view.HomeActivity;
 
 public class FoodAdapter extends BaseAdapter {
 
@@ -74,6 +77,13 @@ public class FoodAdapter extends BaseAdapter {
         descriptionView.setText(currentFood.getDescription());
         calorieView.setText(String.format("%d cal", currentFood.getCalories()));
 
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, FoodDetailActivity.class);
+            intent.putExtra("food_id", currentFood.getFoodID());
+            context.startActivity(intent);
+        });
+
+
         addButton.setOnClickListener(v -> {
             saveFoodToLocalStorage(currentFood);
         });
@@ -105,6 +115,6 @@ public class FoodAdapter extends BaseAdapter {
         Log.d("FoodAdapter", "Saved JSON in SharedPreferences: " + json);
 
         // Thông báo cho người dùng
-//        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
     }
 }
