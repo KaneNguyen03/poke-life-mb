@@ -14,12 +14,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:padding="10dp">
-=======
-        android:descendantFocusability="blocksDescendants"
-        android:padding="10dp"> <!-- Added this line -->
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
+
+
 
         <ImageView
             android:id="@+id/foodImage"
@@ -35,11 +32,6 @@
             android:orientation="horizontal"
             android:paddingTop="8dp">
 
-<<<<<<< HEAD
-            <!-- Bên trái -->
-=======
-            <!-- Left Section -->
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -55,11 +47,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-<<<<<<< HEAD
                     android:id="@+id/description"
-=======
-                    android:id="@+id/ingredient"
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ingredients: Lettuce, Tomato, Cucumber" />
@@ -68,20 +56,11 @@
                     android:id="@+id/foodPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-<<<<<<< HEAD
                     android:text="12,000 VNĐ"
-=======
-                    android:text="$12.00"
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
                     android:textColor="#FF0000"
                     android:textSize="16sp" />
             </LinearLayout>
 
-<<<<<<< HEAD
-            <!-- Bên phải -->
-=======
-            <!-- Right Section -->
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -96,7 +75,6 @@
                     android:layout_height="wrap_content"
                     android:text="300 calories" />
 
-<<<<<<< HEAD
                 <ImageButton
                     android:id="@+id/btnAddToCart"
                     android:layout_width="80dp"
@@ -106,20 +84,6 @@
                     android:src="@drawable/icon_cart" />
             </LinearLayout>
         </LinearLayout>
-
-=======
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/order_button"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:text="Order"
-                    app:backgroundTint="@null" />
-            </LinearLayout>
-        </LinearLayout>
->>>>>>> 0d6d44770d994e04f4afae4732cbca9f17b4c5e2
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

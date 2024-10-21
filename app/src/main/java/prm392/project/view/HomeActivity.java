@@ -111,11 +111,18 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_home) {
-                    Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_cart) {
-                    Toast.makeText(HomeActivity.this, "cart", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Toast.makeText(HomeActivity.this, "profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    //chưa có trang profile
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_location) {
                     Intent intent = new Intent(HomeActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);

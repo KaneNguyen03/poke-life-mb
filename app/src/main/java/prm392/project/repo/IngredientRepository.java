@@ -7,6 +7,6 @@ import prm392.project.inter.IngredientService;
 public class IngredientRepository {
 
     public static IngredientService getIngredientService() {
-        return APIClient.getClient().create(IngredientService.class);
+        return APIClient.getClient("").create(IngredientService.class);
     }
 }
