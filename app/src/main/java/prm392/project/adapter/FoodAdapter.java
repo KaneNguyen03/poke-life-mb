@@ -2,6 +2,7 @@ package prm392.project.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,15 +87,24 @@ public class FoodAdapter extends BaseAdapter {
         OrderDetail orderDetail = new OrderDetail(currentFood.getFoodID(), 1, currentFood.getName(),
                 currentFood.getDescription(), currentFood.getPrice(), currentFood.getCalories(), currentFood.getImage());
 
+        Log.d("FoodAdapter", "currentFood: " + currentFood.getFoodID() + ", " + currentFood.getName() +
+                ", Price: " + currentFood.getPrice() + ", Calories: " + currentFood.getCalories() + "---" + currentFood.getDescription() + "---"  + currentFood.getImage());
+
+        // Log thông tin orderDetail sau khởi tạo
+        Log.d("FoodAdapter", "orderDetail: " + orderDetail.getFoodId() + ", " + orderDetail.getName() +
+                ", Price: " + orderDetail.getPrice() + ", Calories: " + orderDetail.getCalories() + "---"  + orderDetail.getDescription() + "---"  + orderDetail.getQuantity() + "---"  + orderDetail.getImage());
+
         // Chuyển đổi đối tượng Food thành JSON
         Gson gson = new Gson();
         String json = gson.toJson(orderDetail);
 
         // Lưu vào sharedPreferences với id của món ăn làm key
-        editor.putString(currentFood.getFoodID(), json);
+        editor.putString(orderDetail.getFoodId(), json);
         editor.apply();
 
+        Log.d("FoodAdapter", "Saved JSON in SharedPreferences: " + json);
+
         // Thông báo cho người dùng
-        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
     }
 }

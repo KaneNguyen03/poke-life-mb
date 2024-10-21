@@ -58,7 +58,7 @@ public class IngredientsListActivity extends AppCompatActivity {
         ingredientsList = new ArrayList<>();
         ingredientService = IngredientRepository.getIngredientService();
         ingredientAdapter = new IngredientAdapter(this, ingredientsList);
-        gridView = findViewById(R.id.foodListView);
+        gridView = findViewById(R.id.ingredientListView);
         gridView.setAdapter(ingredientAdapter);
         btnNormalDish = findViewById(R.id.btnNormalDish);
         btnChosen = findViewById(R.id.btnViewChosen);
@@ -81,6 +81,7 @@ public class IngredientsListActivity extends AppCompatActivity {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.logout) {
+                        //intent tới trang login call api logout
                         Toast.makeText(IngredientsListActivity.this, "Click logout", Toast.LENGTH_SHORT).show();
                     } else if (item.getItemId() == R.id.orderHistory) {
                         Intent intent = new Intent(IngredientsListActivity.this, OrderHistoryActivity.class);
@@ -106,11 +107,18 @@ public class IngredientsListActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_home) {
-                    Toast.makeText(IngredientsListActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(IngredientsListActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_cart) {
-                    Toast.makeText(IngredientsListActivity.this, "cart", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(IngredientsListActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Toast.makeText(IngredientsListActivity.this, "profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(IngredientsListActivity.this, HomeActivity.class);
+                    //thêm trang profile
+                    startActivity(intent);
+                    finish();
                 } else if (item.getItemId() == R.id.nav_location) {
                     Intent intent = new Intent(IngredientsListActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);

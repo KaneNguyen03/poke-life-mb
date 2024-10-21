@@ -19,6 +19,11 @@ public class OrderDetail {
         this.image = image;
     }
 
+    public OrderDetail(String foodId, int quantity){
+        this.foodId = foodId;
+        this.quantity = quantity;
+    }
+
     public String getFoodId() {
         return foodId;
     }
