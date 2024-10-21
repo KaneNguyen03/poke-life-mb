@@ -2,6 +2,7 @@ package prm392.project.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,7 +21,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,7 @@ import prm392.project.repo.FoodRepository;
 import prm392.project.inter.FoodService;
 
 import prm392.project.model.Food;
+import prm392.project.repo.UserRepository;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,7 +85,39 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.logout) {
-                        Toast.makeText(HomeActivity.this, "Click logout", Toast.LENGTH_SHORT).show();
+                        Log.d("HomeActivity", "Logout menu item clicked");
+
+                        // Call logout API
+                        UserRepository userRepository = new UserRepository("");
+                        Log.d("HomeActivity", "Calling logout API...");
+
+                        userRepository.logout().enqueue(new Callback<Boolean>() {
+                            @Override
+                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                Log.d("HomeActivity", "Logout API response received");
+
+                                if (response.isSuccessful() && response.body() != null) {
+                                    Log.d("HomeActivity", "Logout API successful, response: " + response.body());
+                                    if (response.body()) {
+                                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Log.d("HomeActivity", "Logout API returned false");
+                                        Toast.makeText(HomeActivity.this, "Logout failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Log.d("HomeActivity", "Logout API failed, response code: " + response.code());
+                                    Toast.makeText(HomeActivity.this, "Logout failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Boolean> call, Throwable t) {
+                                Log.d("HomeActivity", "Logout API call failed: " + t.getMessage());
+                                Toast.makeText(HomeActivity.this, "Logout failed", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else if (item.getItemId() == R.id.orderHistory) {
                         Intent intent = new Intent(HomeActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);

@@ -18,5 +18,8 @@ public class UserRepository {
         return userService.getCurrentUser();
     }
 
+    public Call<Boolean> logout() {
+        return userService.logout();
+    }
 
 }
