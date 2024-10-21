@@ -24,7 +24,7 @@ public class AuthInterceptor implements Interceptor {
 
         // Lấy token mới nhất
 //        String token = getToken();
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYjI2MTViMS02M2M0LTQ1MjUtOTYxNC1kYmFlMWE4NmU3YzYiLCJlbWFpbCI6Im1pbmhxdWFuMjkxMDIwMDMyMDAzQGdtYWlsLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImlhdCI6MTcyOTQ5NzIwNywiZXhwIjoxNzMwMTAyMDA3fQ.yObq0YH5zonwxNfhBQGgKKYQfMjdfQcD1oh46u59B1c";
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYjI2MTViMS02M2M0LTQ1MjUtOTYxNC1kYmFlMWE4NmU3YzYiLCJlbWFpbCI6Im1pbmhxdWFuMjkxMDIwMDMyMDAzQGdtYWlsLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImlhdCI6MTcyOTUyMTk4MiwiZXhwIjoxNzI5NTIyODgyfQ.qc__5Y84ZcXMAAA9-reOmYjzMHjeEAySaSOT4lcs61w";
 
         // Thêm token vào header
         Request newRequest = originalRequest.newBuilder()
