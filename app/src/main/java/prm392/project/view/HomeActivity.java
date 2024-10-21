@@ -29,9 +29,6 @@ import prm392.project.adapter.FoodAdapter;
 import prm392.project.repo.FoodRepository;
 import prm392.project.inter.FoodService;
 
-import prm392.project.inter.FoodService;
-import prm392.project.repo.FoodRepository;
-
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     FoodService foodService;
     Button btnCustomDish;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,22 +128,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });
-
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            Log.d("GridViewClick", "Item clicked at position: " + position);
-            // Lấy ra item được chọn từ foodList
-            Food selectedFood = foodList.get(position);
-            Log.d("GridViewClick", "Selected food: " + selectedFood.getFoodID() + " - " + selectedFood.getName());
-
-            // Tạo một Intent để chuyển sang FoodDetailActivity
-            Intent intent = new Intent(HomeActivity.this, FoodDetailActivity.class);
-
-            // Truyền dữ liệu (ID món ăn) sang FoodDetailActivity
-            intent.putExtra("food_id", selectedFood.getFoodID());
-
-            // Start FoodDetailActivity
-            startActivity(intent);
         });
     }
 

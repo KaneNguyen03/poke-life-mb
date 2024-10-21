@@ -40,8 +40,8 @@ public class ProfileActivity extends AppCompatActivity {
         // Initialize views
         profileName = findViewById(R.id.profile_name);
         profileEmail = findViewById(R.id.profile_email);
-        profileAddress = findViewById(R.id.profile_address);
         profilePhone = findViewById(R.id.profile_phone);
+        profileAddress = findViewById(R.id.profile_address);
 
         String token = "this_is_token";
         userRepository = new UserRepository(token);
@@ -76,7 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserProfile() {
-
         userRepository.getUserProfile().enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

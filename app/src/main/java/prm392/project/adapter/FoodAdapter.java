@@ -1,6 +1,7 @@
 package prm392.project.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.List;
 import prm392.project.R;
 import prm392.project.model.Food;
 import prm392.project.model.OrderDetail;
+import prm392.project.view.FoodDetailActivity;
+import prm392.project.view.HomeActivity;
 
 public class FoodAdapter extends BaseAdapter {
 
@@ -72,6 +75,13 @@ public class FoodAdapter extends BaseAdapter {
         priceView.setText(formattedPrice);
         descriptionView.setText(currentFood.getDescription());
         calorieView.setText(String.format("%d cal", currentFood.getCalories()));
+
+        imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, FoodDetailActivity.class);
+            intent.putExtra("food_id", currentFood.getFoodID());
+            context.startActivity(intent);
+        });
+
 
         addButton.setOnClickListener(v -> {
             saveFoodToLocalStorage(currentFood);
