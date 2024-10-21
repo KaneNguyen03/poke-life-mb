@@ -45,7 +45,7 @@
             android:layout_weight="1">
 
             <GridView
-                android:id="@+id/foodListView"
+                android:id="@+id/chosenIngredientListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="1"/>
