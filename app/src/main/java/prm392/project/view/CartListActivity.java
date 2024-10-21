@@ -63,8 +63,8 @@ public class CartListActivity extends AppCompatActivity {
         loadCartData(); // Tải dữ liệu từ SharedPreferences
 
 
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_cart);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
@@ -78,14 +78,13 @@ public class CartListActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    Intent intent = new Intent(CartListActivity.this, HomeActivity.class);
-                    //thêm trang profile
+                    Intent intent = new Intent(CartListActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (item.getItemId() == R.id.nav_location) {
                     Intent intent = new Intent(CartListActivity.this, GoogleMapsActivity.class);
                     startActivity(intent);
-                    finish(); // Finish the current activity so that it is removed from the back stack
+                    finish();
                 }
                 return true;
             }

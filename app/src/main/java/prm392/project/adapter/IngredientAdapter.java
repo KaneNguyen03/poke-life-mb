@@ -59,7 +59,7 @@ public class IngredientAdapter extends BaseAdapter {
         TextView priceView = view.findViewById(R.id.foodPrice);
         TextView ingredientView = view.findViewById(R.id.description);
         TextView calorieView = view.findViewById(R.id.foodCalorie);
-        ImageButton btnOrder = view.findViewById(R.id.btnOrder);
+        ImageButton btnOrder = view.findViewById(R.id.btnAddToCart);
 
         DecimalFormat formatter = new DecimalFormat("#,###"); // Định dạng số với dấu phẩy
         String formattedPrice = formatter.format(cur.getPrice()) + " VNĐ"; // Thêm đơn vị VNĐ

@@ -36,6 +36,7 @@ public class FoodDetailActivity extends AppCompatActivity {
     private TextView foodName, foodDescription, foodPrice, foodCalories;
     private Button btnAddToCart;
     private FoodRepository foodRepository;
+    Food tmpFood = new Food();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         foodCalories = findViewById(R.id.foodCalories);
         btnAddToCart = findViewById(R.id.btnAddToCart);
 
-        Food tmpFood = new Food();
-        String token = "this_is_token";
+                String token = "this_is_token";
         foodRepository = new FoodRepository(token);
 
         String foodId = getIntent().getStringExtra("food_id");
@@ -60,12 +60,12 @@ public class FoodDetailActivity extends AppCompatActivity {
         if (foodId != null && !foodId.isEmpty()) {
             // Call the API using the string foodId
             getFoodDetails(foodId);
-            tmpFood.setFoodID(foodId);
-            tmpFood.setName(foodName.toString());
-            tmpFood.setDescription(foodDescription.toString());
-            tmpFood.setCalories(Integer.parseInt(foodCalories.toString()));
-            tmpFood.setPrice(Double.parseDouble(foodPrice.toString()));
-            tmpFood.setImage(foodImage.toString());
+//            tmpFood.setFoodID(foodId);
+//            tmpFood.setName(foodName.toString());
+//            tmpFood.setDescription(foodDescription.toString());
+//            tmpFood.setCalories(Integer.parseInt(foodCalories.toString()));
+//            tmpFood.setPrice(Double.parseDouble(foodPrice.toString()));
+//            tmpFood.setImage(foodImage.toString());
         } else {
             Toast.makeText(this, "Invalid food ID", Toast.LENGTH_SHORT).show();
         }
@@ -116,6 +116,7 @@ public class FoodDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Food food = response.body();
+                        tmpFood = food;
                         // Set data to views
                         foodName.setText(food.getName());
                         foodDescription.setText(food.getDescription());

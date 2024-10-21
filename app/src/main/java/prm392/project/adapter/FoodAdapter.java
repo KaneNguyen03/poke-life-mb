@@ -115,6 +115,6 @@ public class FoodAdapter extends BaseAdapter {
         Log.d("FoodAdapter", "Saved JSON in SharedPreferences: " + json);
 
         // Thông báo cho người dùng
-//        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
     }
 }

@@ -10,9 +10,5 @@ import retrofit2.http.Query;
 public interface IngredientService {
 
     @GET("ingredient")
-    Call<List<Ingredient>> getIngredientList(
-            @Query("pageIndex") int pageIndex,
-            @Query("pageSize") int pageSize,
-            @Query("keyword") String keyword
-    );
+    Call<List<Ingredient>> getIngredientList();
 }
