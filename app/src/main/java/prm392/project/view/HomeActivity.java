@@ -46,7 +46,6 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Food> foodList;
     SwipeRefreshLayout swipeRefreshLayout;
     FoodService foodService;
-    Button btnCustomDish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +66,6 @@ public class HomeActivity extends AppCompatActivity {
         foodAdapter = new FoodAdapter(this, foodList);
         gridView = findViewById(R.id.foodListView);
         gridView.setAdapter(foodAdapter);
-        btnCustomDish = findViewById(R.id.btnCustomDish);
-
-        btnCustomDish.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, IngredientsListActivity.class);
-            startActivity(intent);
-        });
 
         Log.d("HomeActivity", "Food adapter set for GridView");
 

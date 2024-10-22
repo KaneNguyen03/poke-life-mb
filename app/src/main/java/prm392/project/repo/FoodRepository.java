@@ -6,7 +6,6 @@ import java.util.List;
 
 import prm392.project.factory.APIClient;
 import prm392.project.inter.FoodService;
-import prm392.project.model.CustomDishDTO;
 import prm392.project.model.Food;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -29,7 +28,4 @@ public class    FoodRepository {
         return foodService.getFoodDetails(foodId);
     }
 
-    public Call<String> createCustomDish(List<CustomDishDTO> customDish){
-        return foodService.createCustomDish(customDish);
-    }
 }
