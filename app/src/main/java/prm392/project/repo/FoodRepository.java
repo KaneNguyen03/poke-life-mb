@@ -12,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 
 
-public class FoodRepository {
+public class    FoodRepository {
 
     public static FoodService getFoodService(Context context) {
         return APIClient.getClient(context).create(FoodService.class);
