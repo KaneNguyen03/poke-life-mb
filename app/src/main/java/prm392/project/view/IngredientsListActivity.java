@@ -56,7 +56,7 @@ public class IngredientsListActivity extends AppCompatActivity {
         });
 
         ingredientsList = new ArrayList<>();
-        ingredientService = IngredientRepository.getIngredientService();
+        ingredientService = IngredientRepository.getIngredientService(this);
         ingredientAdapter = new IngredientAdapter(this, ingredientsList);
         gridView = findViewById(R.id.ingredientListView);
         gridView.setAdapter(ingredientAdapter);

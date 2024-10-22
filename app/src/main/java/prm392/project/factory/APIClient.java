@@ -1,5 +1,6 @@
 package prm392.project.factory;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
@@ -13,14 +14,12 @@ public class APIClient {
     private static String baseURL = "https://poke-life.onrender.com/api/";
     private static Retrofit retrofit;
 
-    public static Retrofit getClient(String token) {
-        Log.d("APIClient", "Creating Retrofit client with token: " + token);
-
+    public static Retrofit getClient(Context context) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .callTimeout(90, TimeUnit.SECONDS) // Thay đổi thời gian chờ ở đây
                 .readTimeout(90, TimeUnit.SECONDS) // Thời gian chờ đọc
                 .writeTimeout(90, TimeUnit.SECONDS) // Thời gian chờ ghi
-                .addInterceptor(new AuthInterceptor(token))
+                .addInterceptor(new AuthInterceptor(context))
                 .build();
 
         if (retrofit == null) {

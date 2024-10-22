@@ -52,8 +52,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         foodCalories = findViewById(R.id.foodCalories);
         btnAddToCart = findViewById(R.id.btnAddToCart);
 
-                String token = "this_is_token";
-        foodRepository = new FoodRepository(token);
+        foodRepository = new FoodRepository(this);
 
         String foodId = getIntent().getStringExtra("food_id");
 
