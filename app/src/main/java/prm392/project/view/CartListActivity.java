@@ -52,7 +52,6 @@ public class CartListActivity extends AppCompatActivity {
         cartList = new ArrayList<>();
 
         btnOrder.setOnClickListener(v -> {
-            Toast.makeText(this, "Order success", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(CartListActivity.this, OrderActivity.class);
             startActivity(intent);

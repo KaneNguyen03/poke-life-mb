@@ -1,16 +1,26 @@
 package prm392.project.view;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +57,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         orderList = new ArrayList<>();
         orderAdapter = new OrderAdapter(this, orderList);
         loadOrderData();
+        updateCartCountAtHome();
         orderHistoryList.setAdapter(orderAdapter);
 
         // Handle pull-to-refresh
@@ -54,6 +65,56 @@ public class OrderHistoryActivity extends AppCompatActivity {
             refreshOrderData();  // Your method to refresh data
             swipeRefreshLayout.setRefreshing(false);  // Stop the refresh animation
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    Intent intent = new Intent(OrderHistoryActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_cart) {
+                    Intent intent = new Intent(OrderHistoryActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_profile) {
+                    Intent intent = new Intent(OrderHistoryActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_location) {
+                    Intent intent = new Intent(OrderHistoryActivity.this, GoogleMapsActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
+    }
+
+    private void updateCartCount(BottomNavigationView bottomNavigationView, int itemCount) {
+        MenuItem cartMenuItem = bottomNavigationView.getMenu().findItem(R.id.nav_cart);
+        if (cartMenuItem != null) {
+            TextView sizeCart = findViewById(R.id.cartSize);
+            if (itemCount > 0) {
+                sizeCart.setText(String.valueOf(itemCount));
+                sizeCart.setVisibility(View.VISIBLE);
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            } else {
+                sizeCart.setText("0");
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            }
+        }
+    }
+
+    private void updateCartCountAtHome() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        int itemCount = sharedPreferences.getAll().size();
+        updateCartCount(bottomNavigationView, itemCount);
     }
 
     private void loadOrderData() {

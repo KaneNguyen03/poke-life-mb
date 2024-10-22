@@ -1,11 +1,14 @@
 package prm392.project.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -13,8 +16,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
@@ -43,7 +49,6 @@ public class OrderActivity extends AppCompatActivity {
     private RadioGroup paymentMethodGroup;
     private Button orderButton;
     private CheckoutAdapter checkoutAdapter;
-    private CartAdapter cartAdapter;
     private List<OrderDetail> cartList;
     private ImageView qrCodeImage;
     private UserRepository userRepository;
@@ -69,6 +74,9 @@ public class OrderActivity extends AppCompatActivity {
         qrCodeImage = findViewById(R.id.qrCodeImage);
         cartList = new ArrayList<>();
 
+        checkoutAdapter = new CheckoutAdapter(this, cartList);
+        cartItemListView.setAdapter(checkoutAdapter);
+
         // Load customer information from SharedPreferences
         loadCustomerInfo();
 
@@ -76,11 +84,36 @@ public class OrderActivity extends AppCompatActivity {
         loadCartData();
 
         // Initialize adapter for cart items
-        checkoutAdapter = new CheckoutAdapter(this, cartList);
-        cartAdapter = new CartAdapter(this, cartList);
-        cartItemListView.setAdapter(checkoutAdapter);
+
 
         calculateTotalPrice();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_cart);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_home) {
+                    Intent intent = new Intent(OrderActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_cart) {
+                    Intent intent = new Intent(OrderActivity.this, CartListActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_profile) {
+                    Intent intent = new Intent(OrderActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (item.getItemId() == R.id.nav_location) {
+                    Intent intent = new Intent(OrderActivity.this, GoogleMapsActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
 
         //Show qrCodeImage
         paymentMethodGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -120,17 +153,11 @@ public class OrderActivity extends AppCompatActivity {
 
             // Create the order DTO
             CreateOrderDTO createOrderDTO = new CreateOrderDTO(customerName, customerPhone, customerAddress, paymentMethod, minimalOrderDetails);
-            logRequestData(createOrderDTO);
             // Create the order using OrderRepository
             orderRepository.createOrder(createOrderDTO).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(OrderActivity.this, "Order placed successfully", Toast.LENGTH_SHORT).show();
-                        clearCart(minimalOrderDetails);
-                        Intent intent = new Intent(OrderActivity.this, PaymentSuccessActivity.class);
-                        startActivity(intent);
-                    } else {
+                    if (!response.isSuccessful()) {
                         Log.e("OrderActivity", "Failed to place order: " + response.code() + " - " + response.message());
                         try {
                             // Log the error body for more details
@@ -147,6 +174,7 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(OrderActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+            clearCart(minimalOrderDetails);
             Intent intent = new Intent(OrderActivity.this, PaymentSuccessActivity.class);
             startActivity(intent);
         });
@@ -181,6 +209,8 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void loadCartData() {
+        cartList.clear();
+
         // Load data from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("cart", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -192,7 +222,21 @@ public class OrderActivity extends AppCompatActivity {
                 cartList.add(orderDetail);
             }
         }
+        Log.d("list", "cartList " +cartList);
+        // Check if data was successfully loaded
+        if (!cartList.isEmpty()) {
+            // Data has loaded successfully, now set the adapter
+            if (checkoutAdapter == null) {
+                checkoutAdapter = new CheckoutAdapter(this, cartList);
+                cartItemListView.setAdapter(checkoutAdapter); // Set adapter after data is ready
+            } else {
+                checkoutAdapter.notifyDataSetChanged(); // Notify the adapter about new data
+            }
+        }
+
+        checkoutAdapter.notifyDataSetChanged();
     }
+
 
     private void calculateTotalPrice() {
         double total = 0;
@@ -221,29 +265,21 @@ public class OrderActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("cart", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+
+
         for (OrderDetailsDTO detail : list) {
             editor.remove(detail.getFoodID()); // Xóa item
             editor.apply();
         }
         editor.remove("cart");
 
+
         // Clear cart list and update adapter
         cartList.clear();
-        cartAdapter.notifyDataSetChanged();
         checkoutAdapter.notifyDataSetChanged();
 
         // Update the total price
         calculateTotalPrice();
     }
 
-    private void logRequestData(CreateOrderDTO order) {
-        Log.d("OrderActivity", "Customer Name: " + order.getCustomerName());
-        Log.d("OrderActivity", "Address: " + order.getAddress());
-        Log.d("OrderActivity", "Phone Number: " + order.getPhoneNumber());
-        Log.d("OrderActivity", "Payment Method: " + order.getPaymentMethod());
-
-        for (OrderDetailsDTO detail : order.getOrderDetails()) {
-            Log.d("OrderActivity", "Order Detail - Food ID: " + detail.getFoodID() + ", Quantity: " + detail.getQuantity());
-        }
-    }
 }
