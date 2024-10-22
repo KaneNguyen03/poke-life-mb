@@ -58,7 +58,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     private void loadOrderData() {
         // call API
-        orderRepository = new OrderRepository("");
+        orderRepository = new OrderRepository(this);
         Call<List<Order>> call = orderRepository.getOrders(1, 999999, "");
         call.enqueue(new Callback<List<Order>>() {
             @Override

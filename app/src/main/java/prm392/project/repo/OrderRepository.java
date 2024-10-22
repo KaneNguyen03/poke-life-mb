@@ -1,5 +1,7 @@
 package prm392.project.repo;
 
+import android.content.Context;
+
 import java.util.List;
 
 import prm392.project.factory.APIClient;
@@ -14,8 +16,8 @@ import retrofit2.Retrofit;
 public class OrderRepository {
     private OrderService orderService;
 
-    public OrderRepository(String token) {
-        Retrofit retrofit = APIClient.getClient(token);
+    public OrderRepository(Context context) {
+        Retrofit retrofit = APIClient.getClient(context);
         orderService = retrofit.create(OrderService.class);
     }
 

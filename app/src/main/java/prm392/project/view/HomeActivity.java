@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         foodList = new ArrayList<>(); // Initialize the foodList
         Log.d("HomeActivity", "Food list initialized");
 
-        foodService = FoodRepository.getFoodService(); // Initialize foodService
+        foodService = FoodRepository.getFoodService(this); // Initialize foodService
         foodAdapter = new FoodAdapter(this, foodList);
         gridView = findViewById(R.id.foodListView);
         gridView.setAdapter(foodAdapter);
@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("HomeActivity", "Logout menu item clicked");
 
                         // Call logout API
-                        UserRepository userRepository = new UserRepository("");
+                        UserRepository userRepository = new UserRepository(HomeActivity.this);
                         Log.d("HomeActivity", "Calling logout API...");
 
                         userRepository.logout().enqueue(new Callback<Boolean>() {
