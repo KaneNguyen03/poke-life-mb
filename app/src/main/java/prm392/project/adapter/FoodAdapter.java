@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import prm392.project.R;
+import prm392.project.inter.OnCartUpdateListener;
 import prm392.project.model.Food;
 import prm392.project.model.OrderDetail;
 import prm392.project.view.FoodDetailActivity;
@@ -29,10 +30,12 @@ public class FoodAdapter extends BaseAdapter {
 
     private Context context;
     private List<Food> foodList;
+    private OnCartUpdateListener cartUpdateListener;
 
-    public FoodAdapter(Context context, List<Food> foodList) {
+    public FoodAdapter(Context context, List<Food> foodList, OnCartUpdateListener cartUpdateListener) {
         this.context = context;
         this.foodList = foodList;
+        this.cartUpdateListener = cartUpdateListener; // Khởi tạo listener
     }
 
     @Override
@@ -97,24 +100,23 @@ public class FoodAdapter extends BaseAdapter {
         OrderDetail orderDetail = new OrderDetail(currentFood.getFoodID(), 1, currentFood.getName(),
                 currentFood.getDescription(), currentFood.getPrice(), currentFood.getCalories(), currentFood.getImage());
 
-        Log.d("FoodAdapter", "currentFood: " + currentFood.getFoodID() + ", " + currentFood.getName() +
-                ", Price: " + currentFood.getPrice() + ", Calories: " + currentFood.getCalories() + "---" + currentFood.getDescription() + "---"  + currentFood.getImage());
-
-        // Log thông tin orderDetail sau khởi tạo
-        Log.d("FoodAdapter", "orderDetail: " + orderDetail.getFoodId() + ", " + orderDetail.getName() +
-                ", Price: " + orderDetail.getPrice() + ", Calories: " + orderDetail.getCalories() + "---"  + orderDetail.getDescription() + "---"  + orderDetail.getQuantity() + "---"  + orderDetail.getImage());
-
-        // Chuyển đổi đối tượng Food thành JSON
         Gson gson = new Gson();
         String json = gson.toJson(orderDetail);
-
-        // Lưu vào sharedPreferences với id của món ăn làm key
         editor.putString(orderDetail.getFoodId(), json);
         editor.apply();
 
         Log.d("FoodAdapter", "Saved JSON in SharedPreferences: " + json);
 
-        // Thông báo cho người dùng
+        // Cập nhật số lượng giỏ hàng
+        if (cartUpdateListener != null) {
+            cartUpdateListener.onCartUpdated(getCartItemCount()); // Gọi listener
+        }
+
         Toast.makeText(context,"Add " + currentFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+    }
+
+    private int getCartItemCount() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        return sharedPreferences.getAll().size(); // Đếm số lượng item trong giỏ
     }
 }
