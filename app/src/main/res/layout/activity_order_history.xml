@@ -8,48 +8,68 @@
     android:orientation="vertical"
     tools:context=".view.OrderHistoryActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#f0fdf4"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/header_section"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/pr_icon"/>
+            android:background="#f0fdf4"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pr_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order history"
+                android:textColor="#0bae77"
+                android:textSize="30sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout_order_history"
+            android:layout_height="match_parent"
+            android:layout_below="@id/header_section"
+            android:layout_marginBottom="80dp"
+            android:layout_width="wrap_content">
+
+            <GridView
+                android:id="@+id/lvOrderHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
+            android:id="@+id/cartSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order history"
-            android:textColor="#0bae77"
-            android:textSize="30sp"
-            android:layout_marginStart="20dp"/>
+            android:text="1"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="@drawable/badge_background"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="154dp"
+            android:layout_marginBottom="35dp"/>
 
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#23c55e"
-            android:src="@drawable/baseline_menu_24"
-            android:layout_marginStart="50dp"
-            android:padding="8dp"/>
-
-    </LinearLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout_order_history"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content">
-
-        <GridView
-            android:id="@+id/lvOrderHistory"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_height="80dp"
+            android:background="#23c55e"
+            app:menu="@menu/bottom_navigation_menu" />
+    </RelativeLayout>
 
 
 </LinearLayout>

@@ -75,16 +75,4 @@ public class CheckoutAdapter extends BaseAdapter {
         return view;
     }
 
-    private void saveFoodToLocalStorage(OrderDetail currentDetail) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("cart", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // Chuyển đổi đối tượng OrderDetail thành JSON
-        Gson gson = new Gson();
-        String json = gson.toJson(currentDetail);
-
-        // Lưu vào sharedPreferences với id của món ăn làm key
-        editor.putString(currentDetail.getFoodId(), json);
-        editor.apply();
-    }
 }

@@ -34,19 +34,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order your meal"
+                    android:text="Check out"
                     android:textColor="#0bae77"
                     android:textSize="30sp"
                     android:layout_marginStart="20dp"/>
 
-                <ImageView
-                    android:id="@+id/menu_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#23c55e"
-                    android:src="@drawable/baseline_menu_24"
-                    android:layout_marginStart="30dp"
-                    android:padding="8dp"/>
             </LinearLayout>
 
             <!-- Customer Information Section -->
