@@ -1,15 +1,18 @@
 package prm392.project.view;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +33,7 @@ import java.util.List;
 
 import prm392.project.R;
 import prm392.project.adapter.FoodAdapter;
+import prm392.project.inter.OnCartUpdateListener;
 import prm392.project.repo.FoodRepository;
 import prm392.project.inter.FoodService;
 
@@ -39,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnCartUpdateListener {
 
     GridView gridView;
     FoodAdapter foodAdapter;
@@ -63,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("HomeActivity", "Food list initialized");
 
         foodService = FoodRepository.getFoodService(this); // Initialize foodService
-        foodAdapter = new FoodAdapter(this, foodList);
+        foodAdapter = new FoodAdapter(this, foodList, this);
         gridView = findViewById(R.id.foodListView);
         gridView.setAdapter(foodAdapter);
 
@@ -161,8 +165,15 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onCartUpdated(int itemCount) {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        updateCartCount(bottomNavigationView, itemCount); // Cập nhật số lượng
+    }
+
     // Method to load the initial data
     private void loadFoodData() {
+        updateCartCountAtHome();
         Log.d("HomeActivity", "Loading food data...");
         Call<List<Food>> call = foodService.getFoodList(1, 99999, "");
         call.enqueue(new Callback<List<Food>>() {
@@ -200,4 +211,29 @@ public class HomeActivity extends AppCompatActivity {
         foodAdapter.notifyDataSetChanged();  // Notify adapter of the data change
         Log.d("HomeActivity", "Food data refreshed");
     }
+
+    private void updateCartCount(BottomNavigationView bottomNavigationView, int itemCount) {
+        MenuItem cartMenuItem = bottomNavigationView.getMenu().findItem(R.id.nav_cart);
+        if (cartMenuItem != null) {
+            TextView sizeCart = findViewById(R.id.cartSize);
+            if (itemCount > 0) {
+                sizeCart.setText(String.valueOf(itemCount));
+                sizeCart.setVisibility(View.VISIBLE);
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            } else {
+                sizeCart.setText("0");
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            }
+        }
+    }
+
+    private void updateCartCountAtHome() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        int itemCount = sharedPreferences.getAll().size();
+        updateCartCount(bottomNavigationView, itemCount);
+    }
+
 }

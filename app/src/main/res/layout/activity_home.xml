@@ -1,77 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".view.HomeActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#f0fdf4"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/header_section"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/pr_icon"/>
+            android:background="#f0fdf4"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pr_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order your meal"
+                android:textColor="#0bae77"
+                android:textSize="30sp"
+                android:layout_marginStart="20dp"/>
+
+            <ImageView
+                android:id="@+id/menu_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#23c55e"
+                android:src="@drawable/baseline_menu_24"
+                android:layout_marginStart="30dp"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_below="@id/header_section"
+            android:hint="Search your meal..."
+            android:padding="10dp"
+            android:background="@drawable/custom_search_bar"
+            android:drawablePadding="10dp"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_below="@id/search_edit_text"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            android:layout_weight="1"
+            android:clickable="false">
+
+            <GridView
+                android:id="@+id/foodListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="1"
+                android:clickable="false" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
+            android:id="@+id/cartSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order your meal"
-            android:textColor="#0bae77"
-            android:textSize="30sp"
-            android:layout_marginStart="20dp"/>
+            android:text="1"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="@drawable/badge_background"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="154dp"
+            android:layout_marginBottom="35dp"/>
 
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#23c55e"
-            android:src="@drawable/baseline_menu_24"
-            android:layout_marginStart="30dp"
-            android:padding="8dp"/>
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/search_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Search your meal..."
-        android:padding="10dp"
-        android:background="@drawable/custom_search_bar"
-        android:drawablePadding="10dp"
-        android:textColor="#000000"
-        android:textSize="16sp"/>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clickable="false" >
-
-        <GridView
-            android:id="@+id/foodListView"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="1"
-            android:clickable="false" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="#23c55e"
+            app:menu="@menu/bottom_navigation_menu" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#23c55e"
-        app:menu="@menu/bottom_navigation_menu" />
-
-</LinearLayout>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

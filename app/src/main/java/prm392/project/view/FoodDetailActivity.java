@@ -103,6 +103,7 @@ public class FoodDetailActivity extends AppCompatActivity {
     }
 
     private void getFoodDetails(String foodId) {
+        updateCartCountAtHome();
         if (foodId == null || foodId.isEmpty()) {
             Log.e("FoodDetailActivity", "Invalid food ID");
             Toast.makeText(this, "Invalid food ID", Toast.LENGTH_SHORT).show();
@@ -147,6 +148,30 @@ public class FoodDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void updateCartCount(BottomNavigationView bottomNavigationView, int itemCount) {
+        MenuItem cartMenuItem = bottomNavigationView.getMenu().findItem(R.id.nav_cart);
+        if (cartMenuItem != null) {
+            TextView sizeCart = findViewById(R.id.cartSize);
+            if (itemCount > 0) {
+                sizeCart.setText(String.valueOf(itemCount));
+                sizeCart.setVisibility(View.VISIBLE);
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            } else {
+                sizeCart.setText("0");
+                sizeCart.setZ(1f);
+                bottomNavigationView.setZ(0f);
+            }
+        }
+    }
+
+    private void updateCartCountAtHome() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("cart", Context.MODE_PRIVATE);
+        int itemCount = sharedPreferences.getAll().size();
+        updateCartCount(bottomNavigationView, itemCount);
+    }
+
     private void saveToCart(Food tmpFood) {
         SharedPreferences sharedPreferences = this.getSharedPreferences("cart", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -164,5 +189,6 @@ public class FoodDetailActivity extends AppCompatActivity {
 
         // Thông báo cho người dùng
         Toast.makeText(this, "Add " + tmpFood.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+        updateCartCountAtHome();
     }
 }
