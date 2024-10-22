@@ -6,6 +6,7 @@ import prm392.project.model.CreateOrderDTO;
 import prm392.project.model.Food;
 import prm392.project.model.Order;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -19,5 +20,5 @@ public interface OrderService {
     );
 
     @POST("order")
-    Call<String> createOrder(List<CreateOrderDTO> order);
+    Call<String> createOrder(@Body CreateOrderDTO order);
 }

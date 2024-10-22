@@ -7,16 +7,14 @@ public class CreateOrderDTO {
     private String phoneNumber;
     private String address;
     private String paymentMethod;
-    private List<OrderDetail> orderDetailList;
-    private String comboId;
+    private List<OrderDetailsDTO> orderDetails;
 
-    public CreateOrderDTO(String customerName, String phoneNumber, String address, String paymentMethod, List<OrderDetail> orderDetailList, String comboId) {
+    public CreateOrderDTO(String customerName, String phoneNumber, String address, String paymentMethod, List<OrderDetailsDTO> orderDetails) {
         this.customerName = customerName;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.paymentMethod = paymentMethod;
-        this.orderDetailList = orderDetailList;
-        this.comboId = comboId;
+        this.orderDetails = orderDetails;
     }
 
     public String getCustomerName() {
@@ -51,19 +49,11 @@ public class CreateOrderDTO {
         this.paymentMethod = paymentMethod;
     }
 
-    public List<OrderDetail> getOrderDetailList() {
-        return orderDetailList;
+    public List<OrderDetailsDTO> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
-        this.orderDetailList = orderDetailList;
-    }
-
-    public String getComboId() {
-        return comboId;
-    }
-
-    public void setComboId(String comboId) {
-        this.comboId = comboId;
+    public void setOrderDetails(List<OrderDetailsDTO> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }
