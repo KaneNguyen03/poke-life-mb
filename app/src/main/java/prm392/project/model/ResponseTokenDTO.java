@@ -25,4 +25,3 @@ public class ResponseTokenDTO {
         this.refresh_token = refresh_token;
     }
 }
-
