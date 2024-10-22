@@ -53,7 +53,10 @@ public class CartListActivity extends AppCompatActivity {
 
         btnOrder.setOnClickListener(v -> {
             Toast.makeText(this, "Order success", Toast.LENGTH_SHORT).show();
-        });//chưa xong đây chuyển qua checkout rồi mới call api
+
+            Intent intent = new Intent(CartListActivity.this, OrderActivity.class);
+            startActivity(intent);
+        });
         // Khởi tạo SwipeRefreshLayout
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this::loadCartData); // Đặt sự kiện khi kéo để làm mới

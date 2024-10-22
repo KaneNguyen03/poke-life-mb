@@ -25,7 +25,7 @@ public class OrderRepository {
         return orderService.getOrderList(pageIndex, pageSize, keyword);
     }
 
-    public Call<String> createOrder(List<CreateOrderDTO> order) {
+    public Call<String> createOrder(CreateOrderDTO order) {
         return orderService.createOrder(order);
     }
 }

@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorAccent">#22c55e</color>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#666666</color>
+    <color name="button_text">#FFFFFF</color>
+    <color name="background_color">#FFFFFF</color>
 </resources>
