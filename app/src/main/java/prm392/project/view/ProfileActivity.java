@@ -43,8 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         profilePhone = findViewById(R.id.profile_phone);
         profileAddress = findViewById(R.id.profile_address);
 
-        String token = "this_is_token";
-        userRepository = new UserRepository(token);
+        userRepository = new UserRepository(this);
         loadUserProfile();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
