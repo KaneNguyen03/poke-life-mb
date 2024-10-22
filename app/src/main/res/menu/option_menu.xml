@@ -9,7 +9,12 @@
         android:icon="@drawable/baseline_shopping_cart_24"/>
     <item
         android:id="@+id/logout"
+        android:icon="@drawable/baseline_login_24"
         android:title="Logout"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/chat"
+        android:title="Chat with shop"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_login_24"/>
+        android:icon="@drawable/ic_back"/>
 </menu>

@@ -46,6 +46,9 @@
             android:name=".view.OrderActivity"
             android:exported="false" />
         <activity
+            android:name=".view.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.GoogleMapsActivity"
             android:exported="false" />
         <activity

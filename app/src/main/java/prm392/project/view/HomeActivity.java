@@ -119,6 +119,10 @@ public class HomeActivity extends AppCompatActivity implements OnCartUpdateListe
                         Intent intent = new Intent(HomeActivity.this, OrderHistoryActivity.class);
                         startActivity(intent);
                     }
+                    else if (item.getItemId() == R.id.chat){
+                        Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+                        startActivity(intent);
+                    }
                     return false;
                 }
             });
